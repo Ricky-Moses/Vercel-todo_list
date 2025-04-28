@@ -14,6 +14,11 @@ app.use(express.json())
 // Routes
 app.use('/api/task', TodoList)
 
+// Home route
+app.get('/', (req, res) => {
+    res.send('API is running...');
+});
+
 // Server running
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () =>{
