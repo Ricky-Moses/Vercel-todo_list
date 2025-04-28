@@ -22,5 +22,5 @@ app.get('/', (req, res) => {
 // Server running
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () =>{
-    console.log(`Server is running http://localhost:3000/api/task - ${PORT}`);
+    console.log(`Server is running - ${PORT}`);
 })
