@@ -1,4 +1,5 @@
 import express from 'express'
+import cors from 'cors'
 import ConnectDB from './config/db.js'
 import TodoList from './routes/todolist.js'
 
@@ -9,6 +10,7 @@ const app = express()
 ConnectDB()
 
 // Middleware
+app.use(cors())
 app.use(express.json())
 
 // Routes
