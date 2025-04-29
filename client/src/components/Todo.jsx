@@ -8,6 +8,7 @@ const API = import.meta.env.VITE_API_URL
 const Task = () => {
 
   const [data, setData] = useState([])
+  const [activity, setActivity] = useState('')
   const [newForm, setNewForm] = useState({
     taskName: '',
     taskDate: '',
@@ -53,13 +54,14 @@ const Task = () => {
       if (isEditId) {
         const res = await axios.put(`${API}/update_task/${isEditId}`, editForm)
 
-        const updatedTask = data.map(task => 
+        const updatedTask = data.map(task =>
           task._id === isEditId ? res.data.updateTask || res.data.task || res.data : task
         )
 
         setData(updatedTask)
         setEditForm({ taskName: '', taskDate: '', taskDetails: '' })
         setIsEditId(null)
+        setActivity('Successfully Task Updated 🫡')
       }
       else {
         const res = await axios.post(`${API}/add_task`, newForm)
@@ -67,14 +69,12 @@ const Task = () => {
 
         setData([...data, res.data.Task])
         setNewForm({ taskName: '', taskDate: '', taskDetails: '' })
+        setActivity('Successfully Task Added 😚')
       }
-
     }
     catch (err) {
       console.log('Error', err.message);
     }
-
-
   }
 
   const handleEdit = (id) => {
@@ -89,17 +89,18 @@ const Task = () => {
   console.log('Edit ID: ', isEditId);
 
   const handleDelete = async (id) => {
-    try{
-      if(window.confirm(`Are you sure want to delete this list😨 - ${String(id).slice(-2)}`)){
+    try {
+      if (window.confirm(`Are you sure want to delete this list😨 - ${String(id).slice(-2)}`)) {
         const res = await axios.delete(`${API}/delete_task/${id}`)
 
-      if(res.status === 200){
-        const filtered = data.filter(task => task._id !== id)
-        setData(filtered)
+        if (res.status === 200) {
+          const filtered = data.filter(task => task._id !== id)
+          setData(filtered)
+        }
       }
-      }
+      setActivity('Successfully Task Deleted 😒')
     }
-    catch(err){
+    catch (err) {
       console.log('Error', err.message);
     }
   }
@@ -121,7 +122,10 @@ const Task = () => {
                 <input type='date' name='taskDate' className="" value={editForm.taskDate} onChange={handleChange} />
               </fieldset>
               <textarea name="taskDetails" id="" placeholder='Description' value={editForm.taskDetails} onChange={handleChange}></textarea>
-              <button type='submit'>Update</button>
+              <div className="" style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+                <button type='submit'>Update</button>
+                <span className="">{activity}</span>
+              </div>
             </form>
           ) : (
             <form onSubmit={handleSubmit} className="add-task">
@@ -134,7 +138,10 @@ const Task = () => {
                 <input type='date' name='taskDate' className="" value={newForm.taskDate} onChange={handleChange} />
               </fieldset>
               <textarea name="taskDetails" id="" placeholder='Description' value={newForm.taskDetails} onChange={handleChange}></textarea>
-              <button type='submit'>Submit</button>
+              <div className="" style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+                <button type='submit' >Submit</button>
+                <span className="">{activity}</span>
+              </div>
             </form>
           )}
           <div className="task-list">
