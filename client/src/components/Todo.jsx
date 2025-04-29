@@ -122,7 +122,7 @@ const Task = () => {
                 <input type='date' name='taskDate' className="" value={editForm.taskDate} onChange={handleChange} />
               </fieldset>
               <textarea name="taskDetails" id="" placeholder='Description' value={editForm.taskDetails} onChange={handleChange}></textarea>
-              <div className="" style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+              <div className="" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <button type='submit'>Update</button>
                 <span className="">{activity}</span>
               </div>
@@ -138,7 +138,7 @@ const Task = () => {
                 <input type='date' name='taskDate' className="" value={newForm.taskDate} onChange={handleChange} />
               </fieldset>
               <textarea name="taskDetails" id="" placeholder='Description' value={newForm.taskDetails} onChange={handleChange}></textarea>
-              <div className="" style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+              <div className="" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <button type='submit' >Submit</button>
                 <span className="">{activity}</span>
               </div>
