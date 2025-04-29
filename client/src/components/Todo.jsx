@@ -90,11 +90,13 @@ const Task = () => {
 
   const handleDelete = async (id) => {
     try{
-      const res = await axios.delete(`${API}/delete_task/${id}`)
+      if(window.confirm(`Are you sure want to delete this list😨 - ${String(id).slice(-2)}`)){
+        const res = await axios.delete(`${API}/delete_task/${id}`)
 
       if(res.status === 200){
         const filtered = data.filter(task => task._id !== id)
         setData(filtered)
+      }
       }
     }
     catch(err){
