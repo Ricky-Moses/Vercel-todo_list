@@ -8,6 +8,7 @@ const API = import.meta.env.VITE_API_URL
 const Task = () => {
 
   const [data, setData] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
   const [activity, setActivity] = useState('')
   const [newForm, setNewForm] = useState({
     taskName: '',
@@ -26,12 +27,16 @@ const Task = () => {
   }, [])
 
   const fetchData = async () => {
+    setIsLoading(true)
     try {
       const res = await axios.get(`${API}`)
       setData(res.data)
     }
     catch (err) {
       console.log('Error', err.message);
+    }
+    finally{
+      setIsLoading(false)
     }
   }
 
@@ -145,16 +150,23 @@ const Task = () => {
             </form>
           )}
           <div className="task-list">
-            {data.filter(task => task && task.taskName).map((tasks, i) => (
-              <details key={tasks._id}>
-                <summary>{i + 1}. {tasks.taskName} ({String(tasks._id).slice(-2)}) [{String(tasks.taskDate)}] </summary>
-                <p>{tasks.taskDetails}</p>
-                <p>
-                  <button type='button' onClick={() => handleEdit(tasks._id)}>Edit</button>
-                  <button type='button' onClick={() => handleDelete(tasks._id)}>Delete</button>
-                </p>
-              </details>
-            ))}
+            {isLoading ? (
+              <p style={{textAlign: 'center', fontWeight: '600'}}>⏳ Waking up server... Please wait.</p>
+            ) : (
+              <>
+                {data.filter(task => task && task.taskName).map((tasks, i) => (
+                  <details key={tasks._id}>
+                    <summary>{i + 1}. {tasks.taskName} ({String(tasks._id).slice(-2)}) [{String(tasks.taskDate)}] </summary>
+                    <p>{tasks.taskDetails}</p>
+                    <p>
+                      <button type='button' onClick={() => handleEdit(tasks._id)}>Edit</button>
+                      <button type='button' onClick={() => handleDelete(tasks._id)}>Delete</button>
+                    </p>
+                  </details>
+                ))}
+              </>
+            )}
+
           </div>
         </main>
       </section>
